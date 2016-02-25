@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.xsd.com"
+           xmlns="http://www.xsd.com"
+           attributeFormDefault="unqualified"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+           xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+           jaxb:extensionBindingPrefixes="xjc"
+           jaxb:version="1.0"
+           elementFormDefault="qualified">
+
+    <xs:annotation>
+        <xs:appinfo>
+            <jaxb:globalBindings generateIsSetMethod="true">
+                <xjc:serializable uid="1"/>
+            </jaxb:globalBindings>
+        </xs:appinfo>
+    </xs:annotation>
+
+
+    <xs:simpleType name="ParameterType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="string"/>
+            <xs:enumeration value="int"/>
+            <xs:enumeration value="long"/>
+            <xs:enumeration value="number"/>
+            <xs:enumeration value="date"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="InsertResponseEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="int"/>
+            <xs:enumeration value="long"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ParameterModel">
+        <xs:attribute type="xs:normalizedString" name="name" use="required" />
+        <xs:attribute type="ParameterType" name="type" use="required" />
+        <xs:attribute type="xs:boolean" name="isCollection" use="optional" default="false" />
+        <xs:attribute type="xs:string" name="description" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="ParameterCollectionModel">
+        <xs:sequence>
+            <xs:element type="ParameterModel" name="param" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MetaModel">
+        <xs:attribute type="xs:normalizedString" name="packageName" use="required" />
+        <xs:attribute type="xs:string" name="description" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="ResponseType">
+        <xs:choice>
+            <xs:element name="collection" type="ClassResponseType" />
+            <xs:element name="object" type="ClassResponseType" />
+            <xs:element name="primitive" type="PrimitiveResponseType" />
+            <xs:element name="insert" type="InsertResponseType" />
+            <xs:element name="void" type="VoidResponseType" />
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="ClassResponseType">
+        <xs:complexContent>
+            <xs:extension base="AbstractResponseType">
+                <xs:sequence />
+                <xs:attribute type="xs:normalizedString" name="resultClass" use="required" />
+                <xs:attribute type="xs:normalizedString" name="customRowMapperClass" use="optional" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PrimitiveResponseType">
+        <xs:complexContent>
+            <xs:extension base="AbstractResponseType">
+                <xs:sequence />
+                <xs:attribute type="ParameterType" name="resultClass" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="InsertResponseType">
+        <xs:complexContent>
+            <xs:extension base="AbstractResponseType">
+                <xs:sequence />
+                <xs:attribute type="InsertResponseEnumType" name="resultClass" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="VoidResponseType">
+        <xs:complexContent>
+            <xs:extension base="AbstractResponseType">
+                <xs:sequence />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="AbstractResponseType" abstract="true">
+        <xs:sequence />
+    </xs:complexType>
+
+    <xs:complexType name="SqlModel">
+        <xs:simpleContent>
+            <xs:extension base="xs:string" />
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="RequestModel">
+        <xs:sequence>
+            <xs:element type="MetaModel" name="meta" maxOccurs="1" minOccurs="1" />
+            <xs:element type="ResponseType" name="response" maxOccurs="1" minOccurs="1" />
+            <xs:element type="ParameterCollectionModel" name="parameters" maxOccurs="1" minOccurs="0" />
+            <xs:element type="SqlModel" name="sql" maxOccurs="1" minOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="request" type="RequestModel" />
+</xs:schema>

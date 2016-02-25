@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <plugins>
+    <plugin>
+      <name>jdbc-generator-maven-plugin</name>
+      <prefix>jdbc-generator</prefix>
+      <artifactId>jdbc-generator-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</metadata>

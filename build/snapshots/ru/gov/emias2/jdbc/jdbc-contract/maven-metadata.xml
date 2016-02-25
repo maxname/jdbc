@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>ru.gov.emias2.jdbc</groupId>
+  <artifactId>jdbc-contract</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20160225203255</lastUpdated>
+  </versioning>
+</metadata>
