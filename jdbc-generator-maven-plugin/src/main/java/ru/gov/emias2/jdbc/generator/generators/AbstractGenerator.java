@@ -39,7 +39,7 @@ public abstract class AbstractGenerator {
         put(ParameterType.INT, "Integer");
         put(ParameterType.LONG, "Long");
         put(ParameterType.NUMBER, "Decimal");
-        put(ParameterType.DATE, "java.util.Date");
+        put(ParameterType.DATE, "java.time.LocalDateTime");
     }};
 
     private String getConstructorSignature(List<ParameterModel> params) {
