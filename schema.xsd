@@ -25,6 +25,8 @@
             <xs:enumeration value="long"/>
             <xs:enumeration value="number"/>
             <xs:enumeration value="date"/>
+            <xs:enumeration value="time"/>
+            <xs:enumeration value="dateTime"/>
         </xs:restriction>
     </xs:simpleType>
 

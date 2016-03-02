@@ -3,12 +3,13 @@
   <groupId>ru.gov.emias2.jdbc</groupId>
   <artifactId>jdbc-generator-maven-plugin</artifactId>
   <versioning>
-    <latest>1.2-SNAPSHOT</latest>
+    <latest>1.2.1-SNAPSHOT</latest>
     <versions>
       <version>1.0-SNAPSHOT</version>
       <version>1.1-SNAPSHOT</version>
       <version>1.2-SNAPSHOT</version>
+      <version>1.2.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20160302144518</lastUpdated>
+    <lastUpdated>20160302155107</lastUpdated>
   </versioning>
 </metadata>

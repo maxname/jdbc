@@ -39,7 +39,9 @@ public abstract class AbstractGenerator {
         put(ParameterType.INT, "Integer");
         put(ParameterType.LONG, "Long");
         put(ParameterType.NUMBER, "Decimal");
-        put(ParameterType.DATE, "java.util.Date");
+        put(ParameterType.DATE, "java.time.LocalDate");
+        put(ParameterType.TIME, "java.time.LocalTime");
+        put(ParameterType.DATE_TIME, "java.time.LocalDateTime");
     }};
 
     private String getConstructorSignature(List<ParameterModel> params) {
@@ -97,7 +99,7 @@ public abstract class AbstractGenerator {
             b.put("private static final org.springframework.jdbc.core.RowMapper<%s> MAPPER = new %s();",
                     response.getResultClass(), response.getCustomRowMapperClass()).put();
         } else {
-            b.put("private static final org.springframework.jdbc.core.RowMapper<%s> MAPPER = org.springframework.jdbc.core.BeanPropertyRowMapper.newInstance(%s.class);",
+            b.put("private static final org.springframework.jdbc.core.RowMapper<%s> MAPPER = ru.gov.emias2.jdbc.mapper.DefaultRowMapper.newInstance(%s.class);",
                     response.getResultClass(), response.getResultClass()).put();
         }
 
