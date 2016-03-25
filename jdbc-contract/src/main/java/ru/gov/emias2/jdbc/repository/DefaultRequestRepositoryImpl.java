@@ -64,8 +64,8 @@ public class DefaultRequestRepositoryImpl implements RequestRepository {
 
     @Transactional
     @Override
-    public void exec(VoidRequest request) {
-        jdbcTemplate.update(request.getQuery(), processParameters(request.getParameters()));
+    public int exec(VoidRequest request) {
+        return jdbcTemplate.update(request.getQuery(), processParameters(request.getParameters()));
     }
 
     private Map<String, Object> processParameters(Map<String, Object> parameters) {

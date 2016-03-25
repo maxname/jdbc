@@ -12,5 +12,5 @@ public interface RequestRepository {
     <TResult> TResult getOne(ObjectRequest<TResult> request);
     <TPrimitiveType> TPrimitiveType getValue(PrimitiveRequest<TPrimitiveType> request);
     <TIdentityType> TIdentityType insert(InsertRequest<TIdentityType> request);
-    void exec(VoidRequest request);
+    int exec(VoidRequest request);
 }
