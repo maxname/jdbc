@@ -1,5 +1,6 @@
 package ru.gov.emias2.jdbc.repository;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -36,13 +37,21 @@ public class DefaultRequestRepositoryImpl implements RequestRepository {
     @Transactional
     @Override
     public <TResult> TResult getOne(ObjectRequest<TResult> request) {
-        return jdbcTemplate.queryForObject(request.getQuery(), processParameters(request.getParameters()), request.getMapper());
+        try {
+            return jdbcTemplate.queryForObject(request.getQuery(), processParameters(request.getParameters()), request.getMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Transactional
     @Override
     public <TPrimitiveType> TPrimitiveType getValue(PrimitiveRequest<TPrimitiveType> request) {
-        return jdbcTemplate.queryForObject(request.getQuery(), processParameters(request.getParameters()), request.getResultClass());
+        try {
+            return jdbcTemplate.queryForObject(request.getQuery(), processParameters(request.getParameters()), request.getResultClass());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Transactional
@@ -55,8 +64,8 @@ public class DefaultRequestRepositoryImpl implements RequestRepository {
 
     @Transactional
     @Override
-    public void exec(VoidRequest request) {
-        jdbcTemplate.update(request.getQuery(), processParameters(request.getParameters()));
+    public int exec(VoidRequest request) {
+        return jdbcTemplate.update(request.getQuery(), processParameters(request.getParameters()));
     }
 
     private Map<String, Object> processParameters(Map<String, Object> parameters) {
