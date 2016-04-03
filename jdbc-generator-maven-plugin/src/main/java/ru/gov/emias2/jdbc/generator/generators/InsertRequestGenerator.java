@@ -29,7 +29,7 @@ public class InsertRequestGenerator extends AbstractGenerator {
         b.put(" *  @return Идентификатор поля первичного ключа");
         b.put(" */");
         b.put("public String getKeyColumn() {");
-        b.put("return \"%s;\"", model.getResponse().getInsert().getKeyField());
+        b.put("return \"%s\";", model.getResponse().getInsert().getKeyField());
         b.put("}").put();
         b.unfold();
     }
