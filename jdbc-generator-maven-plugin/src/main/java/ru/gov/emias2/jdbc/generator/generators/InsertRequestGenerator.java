@@ -39,7 +39,7 @@ public class InsertRequestGenerator extends AbstractGenerator {
         b.fold("Конвертер").put();
         if (model.getResponse().getInsert().isSetKeyConverter()) {
             b.put("private static final ru.gov.emias2.jdbc.TypeConverter<%s> CONVERTER = new %s();",
-                    model.getResponse().getInsert().getResultClass(),
+                    getType(model.getResponse().getInsert().getResultClass(), false),
                     model.getResponse().getInsert().getKeyConverter()).put();
         } else {
             b.put("private static final ru.gov.emias2.jdbc.TypeConverter<%s> CONVERTER = null;",
@@ -50,7 +50,7 @@ public class InsertRequestGenerator extends AbstractGenerator {
         b.put(" *  Получить конвертер для поля ключа");
         b.put(" */");
         b.put("public ru.gov.emias2.jdbc.TypeConverter<%s> getMapper() {",
-                model.getResponse().getInsert().getResultClass());
+                getType(model.getResponse().getInsert().getResultClass(), false));
         b.put("return CONVERTER;");
         b.put("}").put();
         b.unfold();
