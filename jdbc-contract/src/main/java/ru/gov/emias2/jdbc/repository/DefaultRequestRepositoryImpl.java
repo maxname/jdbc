@@ -64,6 +64,9 @@ public class DefaultRequestRepositoryImpl implements RequestRepository {
                 keyHolder,
                 new String[] { request.getKeyColumn() });
         Object keyValue = keyHolder.getKeys().get(request.getKeyColumn());
+        if (request.getKeyConverter() != null) {
+            return request.getKeyConverter().convert(keyValue);
+        }
         return request.getResultClass().cast(processValueBack(keyValue));
     }
 

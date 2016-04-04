@@ -5,4 +5,5 @@ package ru.gov.emias2.jdbc;
  */
 public interface InsertRequest<TPrimitiveType> extends PrimitiveRequest<TPrimitiveType> {
     String getKeyColumn();
+    TypeConverter<TPrimitiveType> getKeyConverter();
 }

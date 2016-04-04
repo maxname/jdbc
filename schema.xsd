@@ -83,6 +83,7 @@
                 <xs:sequence />
                 <xs:attribute type="ParameterType" name="resultClass" use="required" />
                 <xs:attribute type="xs:string" name="keyField" use="optional" default="ID"/>
+                <xs:attribute type="xs:normalizedString" name="keyConverter" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

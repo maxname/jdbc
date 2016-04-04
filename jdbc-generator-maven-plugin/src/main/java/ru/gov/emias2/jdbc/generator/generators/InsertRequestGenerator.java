@@ -17,6 +17,7 @@ public class InsertRequestGenerator extends AbstractGenerator {
         putResultClassMethod(model, b, getType(model.getResponse().getInsert().getResultClass(), false));
         putQueryMethod(model, b);
         putGetKeyFieldMethod(model, b);
+        putGetKeyConverterMethod(model, b);
         putParametersGettersAndSetters(model, b);
         b.put("}");
     }
@@ -32,5 +33,27 @@ public class InsertRequestGenerator extends AbstractGenerator {
         b.put("return \"%s\";", model.getResponse().getInsert().getKeyField());
         b.put("}").put();
         b.unfold();
+    }
+
+    private void putGetKeyConverterMethod(RequestModel model, JavaBuilder b) {
+        b.fold("Конвертер").put();
+        if (model.getResponse().getInsert().isSetKeyConverter()) {
+            b.put("private static final ru.gov.emias2.jdbc.TypeConverter<%s> CONVERTER = new %s();",
+                    model.getResponse().getInsert().getResultClass(),
+                    model.getResponse().getInsert().getKeyConverter()).put();
+        } else {
+            b.put("private static final ru.gov.emias2.jdbc.TypeConverter<%s> CONVERTER = null;",
+                    model.getResponse().getInsert().getResultClass()).put();
+        }
+
+        b.put("/**");
+        b.put(" *  Получить конвертер для поля ключа");
+        b.put(" */");
+        b.put("public ru.gov.emias2.jdbc.TypeConverter<%s> getMapper() {",
+                model.getResponse().getInsert().getResultClass());
+        b.put("return CONVERTER;");
+        b.put("}").put();
+        b.unfold();
+
     }
 }
