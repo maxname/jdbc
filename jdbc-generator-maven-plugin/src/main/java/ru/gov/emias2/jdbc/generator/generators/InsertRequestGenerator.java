@@ -43,7 +43,7 @@ public class InsertRequestGenerator extends AbstractGenerator {
                     model.getResponse().getInsert().getKeyConverter()).put();
         } else {
             b.put("private static final ru.gov.emias2.jdbc.TypeConverter<%s> CONVERTER = null;",
-                    model.getResponse().getInsert().getResultClass()).put();
+                    getType(model.getResponse().getInsert().getResultClass(), false)).put();
         }
 
         b.put("/**");
