@@ -58,8 +58,16 @@ public class DefaultRequestRepositoryImpl implements RequestRepository {
     @Override
     public <TIdentityType> TIdentityType insert(InsertRequest<TIdentityType> request) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(request.getQuery(), new MapSqlParameterSource(processParameters(request.getParameters())), keyHolder);
-        return request.getKeyValue(keyHolder.getKey());
+        jdbcTemplate.update(
+                request.getQuery(),
+                new MapSqlParameterSource(processParameters(request.getParameters())),
+                keyHolder,
+                new String[] { request.getKeyColumn() });
+        Object keyValue = keyHolder.getKeys().get(request.getKeyColumn());
+        if (request.getKeyConverter() != null) {
+            return request.getKeyConverter().convert(keyValue);
+        }
+        return request.getResultClass().cast(processValueBack(keyValue));
     }
 
     @Transactional
@@ -87,6 +95,22 @@ public class DefaultRequestRepositoryImpl implements RequestRepository {
 
         if (src instanceof LocalDateTime) {
             return java.sql.Timestamp.valueOf((LocalDateTime)src);
+        }
+
+        return src;
+    }
+
+    private Object processValueBack(Object src) {
+        if (src instanceof java.sql.Date) {
+            return ((java.sql.Date)src).toLocalDate();
+        }
+
+        if (src instanceof java.sql.Time) {
+            return ((java.sql.Time)src).toLocalTime();
+        }
+
+        if (src instanceof java.sql.Timestamp) {
+            return ((java.sql.Timestamp)src).toLocalDateTime();
         }
 
         return src;

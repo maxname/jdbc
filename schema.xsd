@@ -30,14 +30,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-
-    <xs:simpleType name="InsertResponseEnumType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="int"/>
-            <xs:enumeration value="long"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="ParameterModel">
         <xs:attribute type="xs:normalizedString" name="name" use="required" />
         <xs:attribute type="ParameterType" name="type" use="required" />
@@ -89,7 +81,9 @@
         <xs:complexContent>
             <xs:extension base="AbstractResponseType">
                 <xs:sequence />
-                <xs:attribute type="InsertResponseEnumType" name="resultClass" use="required" />
+                <xs:attribute type="ParameterType" name="resultClass" use="required" />
+                <xs:attribute type="xs:string" name="keyField" use="optional" default="ID"/>
+                <xs:attribute type="xs:normalizedString" name="keyConverter" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
