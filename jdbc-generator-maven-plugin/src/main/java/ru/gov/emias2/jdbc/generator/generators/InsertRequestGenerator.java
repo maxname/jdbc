@@ -49,7 +49,7 @@ public class InsertRequestGenerator extends AbstractGenerator {
         b.put("/**");
         b.put(" *  Получить конвертер для поля ключа");
         b.put(" */");
-        b.put("public ru.gov.emias2.jdbc.TypeConverter<%s> getMapper() {",
+        b.put("public ru.gov.emias2.jdbc.TypeConverter<%s> getKeyConverter() {",
                 getType(model.getResponse().getInsert().getResultClass(), false));
         b.put("return CONVERTER;");
         b.put("}").put();
